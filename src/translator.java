@@ -25,24 +25,99 @@ for(int count=0;count<args.length;count++)
   {
    if(!args[count].startsWith("-")) 
      {
-          //even numbered arguments should begin with -
-          System.out.println("Improper Syntax: ");
-System.out.println("Invalid Number of Arguments");
+System.out.println("Invalid Syntax");
 System.out.println("Usage: java translator [-options]  ");     
 System.out.println("	where options include:");
 System.out.println("-s\t Source File name");
 System.out.println("-i\t Source Language ");
 System.out.println("-t\t Target Language");
 System.out.println("-o\t Output File");
+System.out.println("\tOutput file will be created in the same directory as input file.");
+ System.out.println("\tIf -o option is not used output will be created as \"sourcefile_TargetLanguage\" in source file directory. ");
 return ;
+
 
      }
    //if args[count]==any flag then args[count+1] contains the 
    //value for that flag
-   if(args[count].equals("-s")) source=args[++count];
-   if(args[count].equals("-i")) initlang=args[++count];
-   if(args[count].equals("-t")) targlang=args[++count];
-   if(args[count].equals("-o")) outfile=args[++count];
+   if(args[count].equals("-s")) 
+{
+	//System.out.println(count+"--"+args.length);
+	int l=count+1;
+	if(l < args.length)
+	source=args[++count];
+	else	{
+	System.out.println("Specify Input file name after -s");
+System.out.println("Usage: java translator [-options]  ");     
+System.out.println("	where options include:");
+System.out.println("-s\t Source File name");
+System.out.println("-i\t Source Language ");
+System.out.println("-t\t Target Language");
+System.out.println("-o\t Output File");
+System.out.println("\tOutput file will be created in the same directory as input file.");
+ System.out.println("\tIf -o option is not used output will be created as \"sourcefile_TargetLanguage\" in source file directory. ");
+	return ;
+	}
+	}
+   if(args[count].equals("-i")) 
+{
+	//System.out.println(count+"--"+args.length);
+	int l=count+1;
+	if(l < args.length)
+	initlang=args[++count];
+	else	{
+	System.out.println("Specify Source Language after -i");
+System.out.println("Usage: java translator [-options]  ");     
+System.out.println("	where options include:");
+System.out.println("-s\t Source File name");
+System.out.println("-i\t Source Language ");
+System.out.println("-t\t Target Language");
+System.out.println("-o\t Output File");
+System.out.println("\tOutput file will be created in the same directory as input file.");
+ System.out.println("\tIf -o option is not used output will be created as \"sourcefile_TargetLanguage\" in source file directory. ");
+	return ;
+	}
+	}
+   if(args[count].equals("-t")) {
+	//System.out.println(count+"--"+args.length);
+	int l=count+1;
+	if(l < args.length)
+	{
+	targlang=args[++count];
+	//System.out.println(targlang);
+	}	
+	else	{
+	System.out.println("Specify Target Language after -t");
+System.out.println("Usage: java translator [-options]  ");     
+System.out.println("	where options include:");
+System.out.println("-s\t Source File name");
+System.out.println("-i\t Source Language ");
+System.out.println("-t\t Target Language");
+System.out.println("-o\t Output File");
+System.out.println("\tOutput file will be created in the same directory as input file.");
+ System.out.println("\tIf -o option is not used output will be created as \"sourcefile_TargetLanguage\" in source file directory. ");
+	return ;
+	}
+	}
+   if(args[count].equals("-o")) 
+	{
+	//System.out.println(count+"--"+args.length);
+	int l=count+1;
+	if(l < args.length)
+	outfile=args[++count];
+	else	{
+	System.out.println("Specify Output file name after -o");
+System.out.println("Usage: java translator [-options]  ");     
+System.out.println("	where options include:");
+System.out.println("-s\t Source File name");
+System.out.println("-i\t Source Language ");
+System.out.println("-t\t Target Language");
+System.out.println("-o\t Output File");
+System.out.println("\tOutput file will be created in the same directory as input file.");
+ System.out.println("\tIf -o option is not used output will be created as \"sourcefile_TargetLanguage\" in source file directory. ");
+	return ;
+	}
+	}
 
   }
 
@@ -51,6 +126,7 @@ return ;
 //System.out.println(check.check_invalid(initlang.toUpperCase()));
 if(source=="" ||initlang==""||targlang=="")
 {
+System.out.println("File : " + source +" to be Converted from " + initlang + " to " +targlang );
 System.out.println("Invalid Number of Arguments");
 System.out.println("Usage: java translator [-options]  ");     
 System.out.println("	where options include:");
@@ -58,6 +134,8 @@ System.out.println("-s\t Source File name");
 System.out.println("-i\t Source Language ");
 System.out.println("-t\t Target Language");
 System.out.println("-o\t Output File");
+System.out.println("\tOutput file will be created in the same directory as input file.");
+ System.out.println("\tIf -o option is not used output will be created as \"sourcefile_TargetLanguage\" in source file directory. ");
 return ;
 }
 if(check.check_invalid(initlang.toUpperCase())==0)
@@ -76,7 +154,17 @@ initlang=initlang.toUpperCase();
 targlang=targlang.toUpperCase();
 if(outfile=="")
 {
+
 outfile=source+"_"+targlang;
+}
+else{
+File file12 = new File(source);
+
+File parentDir = file12.getParentFile(); // to get the parent dir 
+String parentDirName = file12.getParent(); // to get the parent dir name
+
+outfile=parentDirName+"/"+outfile;
+
 }
 System.out.println("File : " + source +" to be Converted from " + initlang + " to " +targlang );
     convert_localizablestring (source, initlang,targlang,outfile);
@@ -89,11 +177,6 @@ System.out.println("File : " + source +" to be Converted from " + initlang + " t
     translate_string call = new translate_string ();
       try
     {
-File file12 = new File(fname);
-
-File parentDir = file12.getParentFile(); // to get the parent dir 
-String parentDirName = file12.getParent(); // to get the parent dir name
-
 
 LineNumberReader  lnr = new LineNumberReader(new FileReader(new File(fname)));
 lnr.skip(Long.MAX_VALUE);
@@ -103,7 +186,7 @@ System.out.println("Lines in input File : "+ lnr.getLineNumber());
 
 
 
-      String filepath = parentDirName+"/"+outfile;
+      String filepath = outfile;
 		System.out.println("Output will be written to File : " + filepath );
       File fileDir = new File (filepath);
       final File parent_directory = fileDir.getParentFile ();
@@ -122,7 +205,7 @@ System.out.println("Lines in input File : "+ lnr.getLineNumber());
 	FileInputStream fis = new FileInputStream (fname);
 	Scanner scanner = new Scanner (fis);
 	int count=1;
-	int nullcount=0;
+
 	while (scanner.hasNextLine ())
 	  {
 
@@ -136,9 +219,7 @@ System.out.println("Lines in input File : "+ lnr.getLineNumber());
 	    if (tokens.length >= 2)
 	      {
 		String rofl=call.trans_string (tokens[1], lang,dest);
-		if(rofl==null)
-		nullcount=0;
-		out.append ("=" +rofl).append ("\r\n");
+				out.append ("=" +rofl).append ("\r\n");
 	      }
 	else
 	{
@@ -147,8 +228,6 @@ System.out.println("Lines in input File : "+ lnr.getLineNumber());
 
 
 	  }
-	if(nullcount>0)
-		System.out.println("Parses failed for lines : " +nullcount );
 	out.flush ();
 	out.close ();
 	scanner.close ();
