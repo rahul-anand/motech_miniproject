@@ -62,7 +62,7 @@ To Build run the command
 export CLASSPATH='.:library/microsoft-translator-java-api-0.6.2.jar:library/json-simple-1.1.1.jar:class/'
 
 To call Java method from command line use
-java translator -s sourcefilename -i sourcelanguage -t targetlanguage
+java translator -s sourcefilename -i sourcelanguage -t targetlanguage -o outputfilename
 
 Usage: java translator [-options]      
  
@@ -73,4 +73,9 @@ Usage: java translator [-options]
 	-i Source Language 
 
 	-t Target Language
+	-o Output File name
+	 	Output file will be created in the same directory as input file.
+         	If -o option is not used output will be created as "sourcefile_TargetLanguage" in input file directory.	
+Example : java translator -s samples/messages.properties -i english -t hindi
+Example : java translator -s samples/messages.properties -i english -t hindi -o message_hi.properties
 
