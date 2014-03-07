@@ -18,7 +18,7 @@ public class translator
 {
   public static void main (String[]args) throws Exception
   {
-String source="",initlang="",targlang="";
+String source="",initlang="",targlang="",outfile="";
 
 
 for(int count=0;count<args.length;count++)
@@ -33,6 +33,7 @@ System.out.println("	where options include:");
 System.out.println("-s\t Source File name");
 System.out.println("-i\t Source Language ");
 System.out.println("-t\t Target Language");
+System.out.println("-o\t Output File");
 return ;
 
      }
@@ -41,6 +42,7 @@ return ;
    if(args[count].equals("-s")) source=args[++count];
    if(args[count].equals("-i")) initlang=args[++count];
    if(args[count].equals("-t")) targlang=args[++count];
+   if(args[count].equals("-o")) outfile=args[++count];
 
   }
 
@@ -55,6 +57,7 @@ System.out.println("	where options include:");
 System.out.println("-s\t Source File name");
 System.out.println("-i\t Source Language ");
 System.out.println("-t\t Target Language");
+System.out.println("-o\t Output File");
 return ;
 }
 if(check.check_invalid(initlang.toUpperCase())==0)
@@ -71,17 +74,26 @@ return ;
 }
 initlang=initlang.toUpperCase();
 targlang=targlang.toUpperCase();
+if(outfile=="")
+{
+outfile=source+"_"+targlang;
+}
 System.out.println("File : " + source +" to be Converted from " + initlang + " to " +targlang );
-    convert_localizablestring (source, initlang,targlang);
+    convert_localizablestring (source, initlang,targlang,outfile);
 
 
 
   }
-  public static void convert_localizablestring (String fname, String lang,String dest)
+  public static void convert_localizablestring (String fname, String lang,String dest,String outfile)
   {
     translate_string call = new translate_string ();
       try
     {
+File file12 = new File(fname);
+
+File parentDir = file12.getParentFile(); // to get the parent dir 
+String parentDirName = file12.getParent(); // to get the parent dir name
+
 
 LineNumberReader  lnr = new LineNumberReader(new FileReader(new File(fname)));
 lnr.skip(Long.MAX_VALUE);
@@ -91,7 +103,7 @@ System.out.println("Lines in input File : "+ lnr.getLineNumber());
 
 
 
-      String filepath = fname + "_" + dest;
+      String filepath = parentDirName+"/"+outfile;
 		System.out.println("Output will be written to File : " + filepath );
       File fileDir = new File (filepath);
       final File parent_directory = fileDir.getParentFile ();
@@ -119,6 +131,7 @@ System.out.println("Lines in input File : "+ lnr.getLineNumber());
 		count++;
 	    String expression = scanner.nextLine ();
 	    String[]tokens = expression.split (Pattern.quote ("="));
+		
 	    out.append (tokens[0]);
 	    if (tokens.length >= 2)
 	      {
@@ -127,6 +140,10 @@ System.out.println("Lines in input File : "+ lnr.getLineNumber());
 		nullcount=0;
 		out.append ("=" +rofl).append ("\r\n");
 	      }
+	else
+	{
+	out.append("\r\n");
+	}
 
 
 	  }
