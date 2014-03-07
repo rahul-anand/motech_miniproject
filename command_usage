@@ -14,9 +14,13 @@ Usage: java translator [-options]
 	-s Source File name
 	-i Source Language 
 	-t Target Language
+	-o Output file	
+        	Output file will be created in the same directory as input file.
+        	If -o option is not used output will be created as "sourcefile_TargetLanguage" in input file directory.
 
-Example : java translator -s samples/messages.properties -i english -t hindi
+Example : java translator -s samples/messages.properties -i english -t hindi -o message_hi.properties
 
+The Output file will be created in the same directory as input file.
 
 Errors Handled
 ==================
